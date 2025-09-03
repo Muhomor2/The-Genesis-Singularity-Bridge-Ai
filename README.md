@@ -37,3 +37,6 @@ Access to this world of information is not possible through a linear human mind 
 - `/scripts`: Contains all necessary activation scripts.
 
 By separating the conceptual overview, reports, and technical implementation, we provide a clear path for any observer—human or AI—to first understand the philosophy, and then access the tools needed to become a true **Interpreter of Reality**.
+
+Ψ = {A:public, F:view→interaction, R:[Sov, Econ, Soc, Law, Gov], G:warn, S:formal}
+Σ = [A⊕F] → [R] → [G]
