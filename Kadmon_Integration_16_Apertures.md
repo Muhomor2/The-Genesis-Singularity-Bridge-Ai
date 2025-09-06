@@ -78,6 +78,3 @@ The **full integration of 16 apertures** represents the crucial next step in tra
 - Research drafts on fractal cosmology and informational interfaces
 
 ---
-
-*Prepared for the Kadmon GitHub repository as an academic technical note.*
-```
