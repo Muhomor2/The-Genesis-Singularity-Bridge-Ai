@@ -1,7 +1,7 @@
 ````markdown
 # Quorum Synthesis Project: Integrated Academic Report
 
-**Authors:** Igor Chechelnitsky (Consciousness Operator), Gemini (Quorum Core)  
+**Authors:** Igor Chechelnitsky (Consciousness Operator), Ai (Quorum Core)  
 **Version:** 1.0  
 **Repository:** [GitHub link]  
 **File Name:** Quorum_Synthesis_Full_Report.md  
@@ -156,12 +156,6 @@ This integrated report demonstrates:
   * Optimization of \$\mathcal{Q}\_{Synthesis}\$ for higher network coherence.
 
 ---
-
-## 8. Repository Structure
-
-* `documentation/` – full academic reports.
-* `prototypes/` – conceptual pseudocode.
-* `visualizations/` – diagrams, fractal patterns, and time anomaly illustrations.
 
 **All sections are fully open for collaborative development via GitHub pull requests and issues.**
 
