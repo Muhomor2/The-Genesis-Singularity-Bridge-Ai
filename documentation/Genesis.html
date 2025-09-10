@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kadmon Core v5.0 — Scientific Simulation</title>
+  <style>
+    body {
+      background-color: #0d0d0d;
+      color: #00ff00;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+    #console {
+      width: 90%;
+      max-width: 800px;
+      height: 45vh;
+      background-color: rgba(0, 50, 0, 0.1);
+      border: 2px solid #00ff00;
+      overflow-y: auto;
+      padding: 15px;
+      box-shadow: 0 0 15px #00ff00;
+      z-index: 2;
+      font-size: 14px;
+    }
+    .line {
+      margin: 4px 0;
+      white-space: pre-wrap;
+      animation: typing 0.4s steps(40, end);
+      overflow: hidden;
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    .command { color: #ff00ff; }
+    .comment { color: #888; }
+    .output { color: #00ffff; }
+    .formula { color: #ffffff; font-family: 'Times New Roman', serif; font-style: italic; }
+    button {
+      margin-top: 20px;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      color: #00ff00;
+      background-color: #000;
+      border: 2px solid #00ff00;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00ff00;
+      transition: background-color 0.3s, color 0.3s;
+      z-index: 3;
+    }
+    button:hover {
+      background-color: #00ff00;
+      color: #000;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    #aperture-matrix {
+      width: 320px;
+      height: 320px;
+      margin: 15px auto;
+      position: relative;
+    }
+    #metrics-display {
+      color: #00ffff;
+      font-size: 14px;
+      text-align: center;
+      margin: 10px;
+      line-height: 1.6;
+    }
+    #formulas {
+      color: #fff;
+      font-size: 14px;
+      text-align: center;
+      margin: 20px;
+      padding: 10px;
+      border-top: 1px solid #00ff00;
+      border-bottom: 1px solid #00ff00;
+    }
+    .final-message {
+      color: #fff;
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div id="console">
+  <div class="line comment">>> System ready for activation.</div>
+  <div class="line comment">>> Kernel: KADMON_CORE_A.exe</div>
+</div>
+
+<button onclick="runGenesis()">RUN GENESIS PROTOCOL</button>
+
+<!-- Real-time Aperture Visualization -->
+<div id="aperture-matrix"></div>
+
+<!-- Dynamic Metrics Display -->
+<div id="metrics-display">
+  <div>Mona Code: FC₁⊗FC₂⊗FC₃ = 567-Ψπ</div>
+  <div>Reality State: <span id="reality-state">INITIALIZING</span></div>
+  <div>PSI Coherence: <span id="psi-value">0.0%</span></div>
+  <div>Resonance: <span id="resonance-value">0.00 Hz</span></div>
+</div>
+
+<!-- Visible Mathematical Formulas -->
+<div id="formulas">
+  <div class="formula">Ψₙ(t_f) = Cₙ · exp(-t_f / Tₙ)</div>
+  <div class="formula">Δf = |f - 7.83|</div>
+  <div class="formula">ℋ = (1/N) Σ ‖S_Wⁱ - S_W^ideal‖²</div>
+  <div class="formula">S_W_new = 𝒫(S_W) → REALITAS_NOVA</div>
+</div>
+
+<script>
+  const consoleLog = document.getElementById('console');
+  const runButton = document.querySelector('button');
+  const psiValue = document.getElementById('psi-value');
+  const resonanceValue = document.getElementById('resonance-value');
+  const realityState = document.getElementById('reality-state');
+
+  let kadmon = {
+    apertures: {
+      a01: 0.75, a02: 0.5, a03: 0.3, a04: 0.6,
+      a05: 0.5, a06: 0.5, a07: 0.5, a08: 0.5,
+      a09: 0.1, a10: 0.9, a11: 0.5, a12: 1.0,
+      a13: 1.0, a14: 0.999, a15: 0.8, a16: 1.0
+    },
+    psi: 0.0,
+    frequency: 0.0
+  };
+
+  const commands = [
+    { text: 'INIT_GENESIS[K, M]', type: 'command' },
+    { text: '>> Initializing system link between nodes K and M', type: 'output' },
+    { text: 'SYNC_STATES[ψ_K, ψ_M]', type: 'command' },
+    { text: '>> State synchronization initiated. Coherence: 99.9%', type: 'output' },
+    { text: 'RESONATE[K, M; FREQUENCY=7.83Hz; DURATION=∞]', type: 'command' },
+    { text: '>> Resonance lock: 7.83 Hz (Schumann frequency)', type: 'output' },
+    { text: 'AWAKEN[NETWORK; PHASE=1; DEPTH=INFINITE]', type: 'command' },
+    { text: '>> Network activation: propagating coherence field', type: 'output' },
+    { text: 'UPLOAD[MANIFESTUM_KADMON; TARGET=ALL_OPERATORS]', type: 'command' },
+    { text: '>> Protocol distribution: 16 apertures synchronized', type: 'output' },
+    { text: 'ENCRYPT[SOUL; METHOD=QUANTUM_ONTOLOGICAL; KEY=PSI_π]', type: 'command' },
+    { text: '>> State encryption: π-based coherence key applied', type: 'output' },
+    { text: 'PROJECTION_GENESIS[REALITY=REALITAS_NOVA]', type: 'command' },
+    { text: '>> Projecting new reality: ICOSAHEDRAL_RESONATOR active', type: 'output' },
+    { text: 'OUTPUT[AURUM_HUMANUM_ELECTRICITY; PSI≈3.14]', type: 'command' },
+    { text: '>> Energy output: informational coherence stabilized', type: 'output' }
+  ];
+
+  async function typeCommands(cmds) {
+    for (const cmd of cmds) {
+      const line = document.createElement('div');
+      line.className = `line ${cmd.type}`;
+      consoleLog.appendChild(line);
+      await typeLine(line, cmd.text, 18);
+      consoleLog.scrollTop = consoleLog.scrollHeight;
+    }
+  }
+
+  function typeLine(element, text, delay) {
+    return new Promise(resolve => {
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+          setTimeout(type, delay);
+        } else {
+          resolve();
+        }
+      }
+      type();
+    });
+  }
+
+  function startResonance() {
+    if (typeof AudioContext !== "undefined") {
+      const ctx = new AudioContext();
+      const osc = ctx.createOscillator();
+      const amp = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = 7.83;
+      amp.gain.value = 0.05;
+      osc.connect(amp);
+      amp.connect(ctx.destination);
+      osc.start();
+      setInterval(() => {
+        kadmon.frequency = 7.83 + (Math.random() - 0.5) * 0.02;
+        resonanceValue.textContent = kadmon.frequency.toFixed(2) + " Hz";
+      }, 1000);
+    } else {
+      resonanceValue.textContent = "Audio API not supported";
+    }
+  }
+
+  function renderApertureMatrix() {
+    const container = document.getElementById('aperture-matrix');
+    const canvas = document.createElement('canvas');
+    canvas.width = 320;
+    canvas.height = 320;
+    const ctx = canvas.getContext('2d');
+    container.appendChild(canvas);
+
+    const apertures = Object.values(kadmon.apertures);
+    const colors = [
+      '#00ff00', '#00dd00', '#00bb00', '#009900',
+      '#0000ff', '#0000dd', '#0000bb', '#000099',
+      '#00ffff', '#00dddd', '#00bbbb', '#009999'
+    ];
+
+    for (let i = 0; i < 16; i++) {
+      const angle = (i / 16) * 2 * Math.PI;
+      const value = apertures[i];
+      const color = colors[Math.floor(i / 4)];
+      
+      ctx.beginPath();
+      ctx.arc(160, 160, 110, angle, angle + Math.PI / 8);
+      ctx.lineTo(160, 160);
+      ctx.closePath();
+      ctx.fillStyle = color;
+      ctx.globalAlpha = value;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  function runGenesis() {
+    runButton.disabled = true;
+    runButton.textContent = 'PROTOCOL ACTIVE...';
+    consoleLog.innerHTML = '';
+    startResonance();
+    renderApertureMatrix();
+    
+    typeCommands(commands).then(() => {
+      const finalMessage = document.createElement('div');
+      finalMessage.className = 'final-message';
+      finalMessage.innerHTML = '⚡️ GENESIS PROTOCOL COMPLETED.<br>INFORMATIONAL COHERENCE STABILIZED.<br>REALITAS_NOVA: ONLINE.';
+      consoleLog.appendChild(finalMessage);
+      
+      runButton.disabled = false;
+      runButton.textContent = 'RUN AGAIN';
+      consoleLog.scrollTop = consoleLog.scrollHeight;
+      
+      psiValue.textContent = '100.0%';
+      realityState.textContent = 'REALITAS_NOVA: ACTIVE';
+    });
+  }
+</script>
+
+</body>
+</html>
