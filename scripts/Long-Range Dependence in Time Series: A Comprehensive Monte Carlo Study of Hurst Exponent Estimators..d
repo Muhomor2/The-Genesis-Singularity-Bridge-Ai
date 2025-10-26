@@ -1,0 +1,1 @@
+Long-Range Dependence in Time Series: A Comprehensive Monte Carlo Study of Hurst Exponent Estimators
